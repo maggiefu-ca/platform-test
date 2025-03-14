@@ -11,7 +11,7 @@ const BridgeArbitrage = () => {
       title="Cross-Chain Bridge & Arbitrage"
       description="Monitor cross-chain opportunities, bridge transfers, and exploit risks"
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <ArbitrageOpportunities />
         <div className="space-y-6">
           <BridgeTransferTracker />
