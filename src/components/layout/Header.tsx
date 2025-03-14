@@ -1,6 +1,6 @@
 
 import React from "react";
-import { MagnifyingGlassIcon, BellIcon, UserCircleIcon } from "lucide-react";
+import { Search, BellIcon, UserCircleIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -16,7 +16,7 @@ const Header = () => {
 
       <div className="hidden md:flex items-center relative max-w-md w-full mx-4">
         <div className="absolute left-3 text-muted-foreground">
-          <MagnifyingGlassIcon size={18} />
+          <Search size={18} />
         </div>
         <Input
           placeholder="Search wallets, transactions, or assets..."
