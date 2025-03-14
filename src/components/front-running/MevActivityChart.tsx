@@ -19,6 +19,21 @@ const data = [
   { time: "22:00", value: 52 },
 ];
 
+const CustomTooltip = ({ active, payload, label }: any) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="rounded-lg border border-border/30 bg-background/95 p-3 shadow-lg backdrop-blur-sm">
+        <p className="font-medium text-sm">{`${label}`}</p>
+        <p className="text-primary flex items-center gap-1 text-sm font-semibold">
+          {`${payload[0].value} transactions`}
+        </p>
+        <p className="text-xs text-muted-foreground">MEV activity detected</p>
+      </div>
+    );
+  }
+  return null;
+};
+
 const MevActivityChart = () => {
   return (
     <ResponsiveContainer width="100%" height={300}>
@@ -31,17 +46,33 @@ const MevActivityChart = () => {
           bottom: 0,
         }}
       >
-        <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
-        <XAxis dataKey="time" />
-        <YAxis />
-        <Tooltip
-          contentStyle={{
-            backgroundColor: "hsl(var(--background))",
-            borderColor: "hsl(var(--border))",
-            borderRadius: "8px",
-          }}
+        <defs>
+          <linearGradient id="mevGradient" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.8} />
+            <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0.1} />
+          </linearGradient>
+        </defs>
+        <CartesianGrid strokeDasharray="3 3" opacity={0.1} vertical={false} />
+        <XAxis 
+          dataKey="time" 
+          axisLine={{ stroke: 'hsl(var(--border))', strokeWidth: 1 }}
+          tickLine={false}
+          tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }}
         />
-        <Area type="monotone" dataKey="value" stroke="hsl(var(--primary))" fill="hsl(var(--primary)/0.2)" />
+        <YAxis 
+          axisLine={{ stroke: 'hsl(var(--border))', strokeWidth: 1 }}
+          tickLine={false}
+          tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }}
+        />
+        <Tooltip content={<CustomTooltip />} />
+        <Area 
+          type="monotone" 
+          dataKey="value" 
+          stroke="hsl(var(--primary))" 
+          strokeWidth={2}
+          fill="url(#mevGradient)" 
+          activeDot={{ r: 6, stroke: 'hsl(var(--background))', strokeWidth: 2, fill: 'hsl(var(--primary))' }}
+        />
       </AreaChart>
     </ResponsiveContainer>
   );
