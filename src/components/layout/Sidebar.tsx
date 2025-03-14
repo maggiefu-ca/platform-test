@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { 
   LayoutDashboard, 
@@ -43,11 +43,11 @@ const SidebarItem = ({ to, icon, text, isActive, onClick }: SidebarItemProps) =>
 );
 
 interface SidebarProps {
-  isOpen: boolean;
-  setIsOpen: (open: boolean) => void;
+  isOpen?: boolean;
+  setIsOpen?: (open: boolean) => void;
 }
 
-const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
+const Sidebar = ({ isOpen = true, setIsOpen = () => {} }: SidebarProps) => {
   const location = useLocation();
   const { isMobile } = useMobile();
   const pathname = location.pathname;
