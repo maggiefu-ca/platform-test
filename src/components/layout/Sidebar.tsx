@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { useMobile } from "@/hooks/use-mobile";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface SidebarItemProps {
   to: string;
@@ -49,7 +49,7 @@ interface SidebarProps {
 
 const Sidebar = ({ isOpen = true, setIsOpen = () => {} }: SidebarProps) => {
   const location = useLocation();
-  const { isMobile } = useMobile();
+  const isMobile = useIsMobile();
   const pathname = location.pathname;
 
   const closeMenu = () => {
