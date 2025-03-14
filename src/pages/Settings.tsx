@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useTheme } from "@/context/ThemeContext";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -6,11 +5,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, CheckCircle, PaintBucket, Type } from "lucide-react";
+import { ArrowLeft, CheckCircle, PaintBucket, Type, Palette } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { toast } from "@/components/ui/use-toast";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
+import ColorPickerSection from "@/components/settings/ColorPickerSection";
 
 const ThemeCard = ({ name, description, preset, currentPreset, onClick }: { 
   name: string; 
@@ -109,6 +109,10 @@ const Settings = () => {
               <Type className="mr-2 h-4 w-4" />
               Typography
             </TabsTrigger>
+            <TabsTrigger value="colors">
+              <Palette className="mr-2 h-4 w-4" />
+              Colors
+            </TabsTrigger>
           </TabsList>
           
           <TabsContent value="theme" className="space-y-4">
@@ -201,6 +205,10 @@ const Settings = () => {
                 />
               </div>
             </div>
+          </TabsContent>
+
+          <TabsContent value="colors" className="space-y-4">
+            <ColorPickerSection />
           </TabsContent>
         </Tabs>
       </div>

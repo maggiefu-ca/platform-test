@@ -7,8 +7,10 @@ export type FontOption = 'inter' | 'poppins' | 'playfair' | 'roboto' | 'montserr
 interface ThemeContextType {
   preset: ThemePreset;
   font: FontOption;
+  customColors: string[][];
   setPreset: (preset: ThemePreset) => void;
   setFont: (font: FontOption) => void;
+  addCustomColor: (baseColor: string, variations: string[]) => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -22,6 +24,11 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const [font, setFontState] = useState<FontOption>(() => {
     const savedFont = localStorage.getItem('theme-font');
     return (savedFont as FontOption) || 'inter';
+  });
+
+  const [customColors, setCustomColors] = useState<string[][]>(() => {
+    const savedColors = localStorage.getItem('theme-custom-colors');
+    return savedColors ? JSON.parse(savedColors) : [];
   });
 
   const setPreset = (newPreset: ThemePreset) => {
@@ -50,6 +57,12 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
     document.documentElement.classList.add(`font-${newFont}`);
   };
 
+  const addCustomColor = (baseColor: string, variations: string[]) => {
+    const newCustomColors = [...customColors, variations];
+    setCustomColors(newCustomColors);
+    localStorage.setItem('theme-custom-colors', JSON.stringify(newCustomColors));
+  };
+
   useEffect(() => {
     // Initialize theme on mount
     if (preset !== 'system') {
@@ -67,7 +80,14 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   return (
-    <ThemeContext.Provider value={{ preset, font, setPreset, setFont }}>
+    <ThemeContext.Provider value={{ 
+      preset, 
+      font, 
+      customColors,
+      setPreset, 
+      setFont,
+      addCustomColor
+    }}>
       {children}
     </ThemeContext.Provider>
   );
