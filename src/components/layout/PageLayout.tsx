@@ -15,7 +15,7 @@ export const PageLayout = ({ title, description, children }: PageLayoutProps) =>
       <Sidebar />
       <div className="flex-1 overflow-auto">
         <Header />
-        <main className="p-6">
+        <main className="p-6 mt-14"> {/* Added mt-14 for margin-top to account for fixed header height */}
           {title && (
             <div className="mb-8">
               <h1 className="text-3xl font-bold tracking-tight">{title}</h1>
