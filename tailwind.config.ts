@@ -123,7 +123,12 @@ export default {
 				'shimmer': 'shimmer 2s infinite'
 			},
 			fontFamily: {
-				sans: ['Inter var', 'sans-serif'],
+				sans: ['Inter', 'sans-serif'],
+				inter: ['Inter', 'sans-serif'],
+				poppins: ['Poppins', 'sans-serif'],
+				playfair: ['Playfair Display', 'serif'],
+				roboto: ['Roboto', 'sans-serif'],
+				montserrat: ['Montserrat', 'sans-serif'],
 				display: ['SF Pro Display', 'Inter var', 'sans-serif']
 			},
 			backgroundImage: {

@@ -1,147 +1,152 @@
 
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { cn } from "@/lib/utils";
-import {
-  LayoutDashboard,
-  Wallet,
-  TrendingUp,
-  LineChart,
-  Bell,
-  Settings,
-  HelpCircle,
-  LogOut,
-  Cpu,
-  ScrollText,
-  FileText,
-  DollarSign,
-  Shield,
-  ArrowDownUp,
-  Landmark,
-  Bot
+import { 
+  LayoutDashboard, 
+  Wallet, 
+  Handshake, 
+  Image, 
+  Zap, 
+  ArrowRightLeft, 
+  Coins, 
+  Building2, 
+  Menu, 
+  X,
+  Settings as SettingsIcon
 } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { useMobile } from "@/hooks/use-mobile";
 
-interface NavItemProps {
+interface SidebarItemProps {
+  to: string;
   icon: React.ReactNode;
-  label: string;
-  path: string;
-  active?: boolean;
-  badge?: string | number;
+  text: string;
+  isActive: boolean;
+  onClick?: () => void;
 }
 
-const NavItem = ({ icon, label, path, active, badge }: NavItemProps) => {
-  return (
-    <Link to={path} className="w-full">
-      <Button
-        variant="ghost"
-        className={cn(
-          "w-full justify-start gap-3 px-3 h-10 mb-1",
-          active ? "bg-accent text-accent-foreground" : "text-muted-foreground hover:text-foreground",
-          "transition-all duration-200 group"
-        )}
-      >
-        <div className={cn("", active ? "text-accent-foreground" : "text-muted-foreground group-hover:text-foreground")}>
-          {icon}
-        </div>
-        <span className="font-medium">{label}</span>
-        {badge && (
-          <span className="ml-auto flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[11px] font-medium text-primary-foreground">
-            {badge}
-          </span>
-        )}
-      </Button>
-    </Link>
-  );
-};
+const SidebarItem = ({ to, icon, text, isActive, onClick }: SidebarItemProps) => (
+  <Link to={to} onClick={onClick}>
+    <div
+      className={cn(
+        "flex items-center gap-3 rounded-lg px-3 py-2 transition-all",
+        isActive 
+          ? "bg-primary text-primary-foreground" 
+          : "text-muted-foreground hover:bg-secondary hover:text-foreground"
+      )}
+    >
+      {icon}
+      <span>{text}</span>
+    </div>
+  </Link>
+);
 
-const Sidebar = () => {
-  const isMobile = useIsMobile();
-  const [isSidebarOpen, setIsSidebarOpen] = React.useState(false);
+interface SidebarProps {
+  isOpen: boolean;
+  setIsOpen: (open: boolean) => void;
+}
+
+const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
   const location = useLocation();
+  const { isMobile } = useMobile();
+  const pathname = location.pathname;
 
-  // Toggle sidebar for mobile
-  const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
-
-  // Check if path is active
-  const isActive = (path: string) => location.pathname === path;
-
-  // Hide sidebar when clicking outside on mobile
-  React.useEffect(() => {
-    const handleClick = (e: MouseEvent) => {
-      if (isMobile && isSidebarOpen) {
-        setIsSidebarOpen(false);
-      }
-    };
-
-    document.addEventListener("click", handleClick);
-    return () => document.removeEventListener("click", handleClick);
-  }, [isMobile, isSidebarOpen]);
-
-  if (isMobile && !isSidebarOpen) {
-    return (
-      <Button
-        variant="outline"
-        size="icon"
-        className="fixed z-50 left-4 top-4 rounded-full border-none bg-secondary/50 hover:bg-secondary"
-        onClick={(e) => {
-          e.stopPropagation();
-          toggleSidebar();
-        }}
-      >
-        <LayoutDashboard size={18} />
-      </Button>
-    );
-  }
+  const closeMenu = () => {
+    if (isMobile) setIsOpen(false);
+  };
 
   return (
     <aside
       className={cn(
-        "fixed top-0 left-0 z-40 h-full",
-        "w-64 bg-card border-r border-border/50",
-        "flex flex-col",
-        isMobile ? "animate-slide-in" : "animate-fade-in"
+        "fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r bg-background transition-transform duration-300 md:translate-x-0",
+        isOpen ? "translate-x-0" : "-translate-x-full"
       )}
-      onClick={(e) => e.stopPropagation()}
     >
-      <div className="p-6">
-        <div className="flex items-center gap-2">
-          <Cpu className="h-7 w-7 text-primary" />
-          <h1 className="text-xl font-bold tracking-tight">
-            <span className="text-primary">Crypto</span>
-            <span className="text-foreground">Choreographer</span>
-          </h1>
-        </div>
+      <div className="flex h-14 items-center border-b px-4">
+        <Link to="/" className="flex items-center gap-2 font-semibold" onClick={closeMenu}>
+          <Zap className="h-5 w-5 text-primary" />
+          <span className="text-xl">CryptoInsights</span>
+        </Link>
+        {isMobile && (
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="ml-auto md:hidden" 
+            onClick={() => setIsOpen(false)}
+          >
+            <X className="h-5 w-5" />
+          </Button>
+        )}
       </div>
-
-      <div className="flex-1 py-2 px-3">
-        <div className="mb-2 px-3 text-xs font-medium text-muted-foreground">OVERVIEW</div>
-        <NavItem icon={<LayoutDashboard size={18} />} label="Dashboard" path="/" active={isActive("/")} />
-        <NavItem icon={<Wallet size={18} />} label="Whale Wallets" path="/whales" active={isActive("/whales")} />
-        <NavItem icon={<TrendingUp size={18} />} label="Predictions" path="/predictions" active={isActive("/predictions")} badge={3} />
-        <NavItem icon={<LineChart size={18} />} label="Analytics" path="/analytics" active={isActive("/analytics")} />
-
-        <Separator className="my-4 opacity-50" />
-        
-        <div className="mb-2 px-3 text-xs font-medium text-muted-foreground">MARKET INSIGHTS</div>
-        <NavItem icon={<ScrollText size={18} />} label="OTC Markets" path="/otc" active={isActive("/otc")} />
-        <NavItem icon={<FileText size={18} />} label="NFT Tracking" path="/nft" active={isActive("/nft")} />
-        <NavItem icon={<Landmark size={18} />} label="VC Investments" path="/vc" active={isActive("/vc")} />
-        
-        <Separator className="my-4 opacity-50" />
-        
-        <div className="mb-2 px-3 text-xs font-medium text-muted-foreground">ADVANCED TOOLS</div>
-        <NavItem icon={<Bot size={18} />} label="Front-Running" path="/front-running" active={isActive("/front-running")} />
-        <NavItem icon={<ArrowDownUp size={18} />} label="Bridge Arbitrage" path="/arbitrage" active={isActive("/arbitrage")} />
-        <NavItem icon={<Shield size={18} />} label="Stablecoin Monitor" path="/stablecoins" active={isActive("/stablecoins")} />
-      </div>
-
-      <div className="mt-auto p-3">
-        <NavItem icon={<Settings size={18} />} label="Settings" path="/settings" active={isActive("/settings")} />
-        <NavItem icon={<HelpCircle size={18} />} label="Help & Support" path="/help" active={isActive("/help")} />
-        <NavItem icon={<LogOut size={18} />} label="Logout" path="/logout" />
+      <div className="flex-1 overflow-auto py-4">
+        <nav className="grid gap-1 px-2">
+          <SidebarItem 
+            to="/" 
+            icon={<LayoutDashboard className="h-5 w-5" />} 
+            text="Dashboard" 
+            isActive={pathname === "/"} 
+            onClick={closeMenu}
+          />
+          <SidebarItem 
+            to="/whales" 
+            icon={<Wallet className="h-5 w-5" />} 
+            text="Whale Wallets" 
+            isActive={pathname === "/whales"} 
+            onClick={closeMenu}
+          />
+          <SidebarItem 
+            to="/otc" 
+            icon={<Handshake className="h-5 w-5" />} 
+            text="OTC Market" 
+            isActive={pathname === "/otc"} 
+            onClick={closeMenu}
+          />
+          <SidebarItem 
+            to="/nft" 
+            icon={<Image className="h-5 w-5" />} 
+            text="NFT Tracking" 
+            isActive={pathname === "/nft"} 
+            onClick={closeMenu}
+          />
+          <SidebarItem 
+            to="/front-running" 
+            icon={<Zap className="h-5 w-5" />} 
+            text="MEV Protection" 
+            isActive={pathname === "/front-running"} 
+            onClick={closeMenu}
+          />
+          <SidebarItem 
+            to="/arbitrage" 
+            icon={<ArrowRightLeft className="h-5 w-5" />} 
+            text="Bridge Arbitrage" 
+            isActive={pathname === "/arbitrage"} 
+            onClick={closeMenu}
+          />
+          <SidebarItem 
+            to="/stablecoins" 
+            icon={<Coins className="h-5 w-5" />} 
+            text="Stablecoin Monitor" 
+            isActive={pathname === "/stablecoins"} 
+            onClick={closeMenu}
+          />
+          <SidebarItem 
+            to="/vc" 
+            icon={<Building2 className="h-5 w-5" />} 
+            text="VC Dashboard" 
+            isActive={pathname === "/vc"} 
+            onClick={closeMenu}
+          />
+          <div className="mt-6 border-t pt-6">
+            <SidebarItem 
+              to="/settings" 
+              icon={<SettingsIcon className="h-5 w-5" />} 
+              text="Settings" 
+              isActive={pathname === "/settings"} 
+              onClick={closeMenu}
+            />
+          </div>
+        </nav>
       </div>
     </aside>
   );

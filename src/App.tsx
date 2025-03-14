@@ -13,28 +13,33 @@ import FrontRunning from "./pages/FrontRunning";
 import BridgeArbitrage from "./pages/BridgeArbitrage";
 import StablecoinMonitor from "./pages/StablecoinMonitor";
 import VcDashboard from "./pages/VcDashboard";
+import Settings from "./pages/Settings";
+import { ThemeProvider } from "./context/ThemeContext";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/whales" element={<WhaleWallets />} />
-          <Route path="/otc" element={<OtcMarket />} />
-          <Route path="/nft" element={<NftTracking />} />
-          <Route path="/front-running" element={<FrontRunning />} />
-          <Route path="/arbitrage" element={<BridgeArbitrage />} />
-          <Route path="/stablecoins" element={<StablecoinMonitor />} />
-          <Route path="/vc" element={<VcDashboard />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
+    <ThemeProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/whales" element={<WhaleWallets />} />
+            <Route path="/otc" element={<OtcMarket />} />
+            <Route path="/nft" element={<NftTracking />} />
+            <Route path="/front-running" element={<FrontRunning />} />
+            <Route path="/arbitrage" element={<BridgeArbitrage />} />
+            <Route path="/stablecoins" element={<StablecoinMonitor />} />
+            <Route path="/vc" element={<VcDashboard />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </ThemeProvider>
   </QueryClientProvider>
 );
 

@@ -1,7 +1,6 @@
 
 import React from "react";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
-import { Card, CardContent } from "@/components/ui/card";
 
 // Mock data for MEV activity
 const data = [
