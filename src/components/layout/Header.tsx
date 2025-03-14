@@ -5,12 +5,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
-const Header = () => {
+interface HeaderProps {
+  title?: string;
+}
+
+const Header: React.FC<HeaderProps> = ({ title }) => {
   return (
     <header className="w-full fixed top-0 z-50 px-6 py-3 backdrop-blur-md bg-background/70 border-b border-border/50 flex items-center justify-between animate-fade-in">
       <div className="flex items-center space-x-4">
         <h1 className="text-xl font-semibold font-display tracking-tight">
-          <span className="text-primary">Crypto</span>Choreographer
+          {title || <><span className="text-primary">Crypto</span>Choreographer</>}
         </h1>
       </div>
 
