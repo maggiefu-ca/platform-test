@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import {
   LayoutDashboard,
@@ -14,7 +14,11 @@ import {
   Cpu,
   ScrollText,
   FileText,
-  DollarSign
+  DollarSign,
+  Shield,
+  ArrowDownUp,
+  Landmark,
+  Bot
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -56,9 +60,13 @@ const NavItem = ({ icon, label, path, active, badge }: NavItemProps) => {
 const Sidebar = () => {
   const isMobile = useIsMobile();
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(false);
+  const location = useLocation();
 
   // Toggle sidebar for mobile
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
+
+  // Check if path is active
+  const isActive = (path: string) => location.pathname === path;
 
   // Hide sidebar when clicking outside on mobile
   React.useEffect(() => {
@@ -109,23 +117,30 @@ const Sidebar = () => {
       </div>
 
       <div className="flex-1 py-2 px-3">
-        <div className="mb-2 px-3 text-xs font-medium text-muted-foreground">MAIN</div>
-        <NavItem icon={<LayoutDashboard size={18} />} label="Dashboard" path="/" active />
-        <NavItem icon={<Wallet size={18} />} label="Whale Wallets" path="/whales" />
-        <NavItem icon={<TrendingUp size={18} />} label="Predictions" path="/predictions" badge={3} />
-        <NavItem icon={<LineChart size={18} />} label="Analytics" path="/analytics" />
+        <div className="mb-2 px-3 text-xs font-medium text-muted-foreground">OVERVIEW</div>
+        <NavItem icon={<LayoutDashboard size={18} />} label="Dashboard" path="/" active={isActive("/")} />
+        <NavItem icon={<Wallet size={18} />} label="Whale Wallets" path="/whales" active={isActive("/whales")} />
+        <NavItem icon={<TrendingUp size={18} />} label="Predictions" path="/predictions" active={isActive("/predictions")} badge={3} />
+        <NavItem icon={<LineChart size={18} />} label="Analytics" path="/analytics" active={isActive("/analytics")} />
 
         <Separator className="my-4 opacity-50" />
         
-        <div className="mb-2 px-3 text-xs font-medium text-muted-foreground">FEATURES</div>
-        <NavItem icon={<ScrollText size={18} />} label="OTC Markets" path="/otc" />
-        <NavItem icon={<FileText size={18} />} label="NFT Tracking" path="/nft" />
-        <NavItem icon={<DollarSign size={18} />} label="Bridge Arbitrage" path="/arbitrage" />
+        <div className="mb-2 px-3 text-xs font-medium text-muted-foreground">MARKET INSIGHTS</div>
+        <NavItem icon={<ScrollText size={18} />} label="OTC Markets" path="/otc" active={isActive("/otc")} />
+        <NavItem icon={<FileText size={18} />} label="NFT Tracking" path="/nft" active={isActive("/nft")} />
+        <NavItem icon={<Landmark size={18} />} label="VC Investments" path="/vc" active={isActive("/vc")} />
+        
+        <Separator className="my-4 opacity-50" />
+        
+        <div className="mb-2 px-3 text-xs font-medium text-muted-foreground">ADVANCED TOOLS</div>
+        <NavItem icon={<Bot size={18} />} label="Front-Running" path="/front-running" active={isActive("/front-running")} />
+        <NavItem icon={<ArrowDownUp size={18} />} label="Bridge Arbitrage" path="/arbitrage" active={isActive("/arbitrage")} />
+        <NavItem icon={<Shield size={18} />} label="Stablecoin Monitor" path="/stablecoins" active={isActive("/stablecoins")} />
       </div>
 
       <div className="mt-auto p-3">
-        <NavItem icon={<Settings size={18} />} label="Settings" path="/settings" />
-        <NavItem icon={<HelpCircle size={18} />} label="Help & Support" path="/help" />
+        <NavItem icon={<Settings size={18} />} label="Settings" path="/settings" active={isActive("/settings")} />
+        <NavItem icon={<HelpCircle size={18} />} label="Help & Support" path="/help" active={isActive("/help")} />
         <NavItem icon={<LogOut size={18} />} label="Logout" path="/logout" />
       </div>
     </aside>
