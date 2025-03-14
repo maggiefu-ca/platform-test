@@ -4,6 +4,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Sidebar from "@/components/layout/Sidebar";
 import Header from "@/components/layout/Header";
+import MevActivityChart from "@/components/front-running/MevActivityChart";
+import MevBotsTable from "@/components/front-running/MevBotsTable";
+import FrontRunningActivityFeed from "@/components/front-running/FrontRunningActivityFeed";
+import SandwichAttackMonitor from "@/components/front-running/SandwichAttackMonitor";
+import HighGasTransactions from "@/components/front-running/HighGasTransactions";
 
 const FrontRunning = () => {
   return (
@@ -33,9 +38,7 @@ const FrontRunning = () => {
                       <CardDescription>Last 24 hours of MEV activity</CardDescription>
                     </CardHeader>
                     <CardContent>
-                      <div className="h-80 flex items-center justify-center border rounded">
-                        <p className="text-muted-foreground">MEV Activity Chart</p>
-                      </div>
+                      <MevActivityChart />
                     </CardContent>
                   </Card>
                   
@@ -45,9 +48,7 @@ const FrontRunning = () => {
                       <CardDescription>Most active MEV bots by transaction volume</CardDescription>
                     </CardHeader>
                     <CardContent>
-                      <div className="h-80 flex items-center justify-center border rounded">
-                        <p className="text-muted-foreground">MEV Bots Table</p>
-                      </div>
+                      <MevBotsTable />
                     </CardContent>
                   </Card>
                 </div>
@@ -58,9 +59,7 @@ const FrontRunning = () => {
                     <CardDescription>Detected front-running events in real-time</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="h-80 flex items-center justify-center border rounded">
-                      <p className="text-muted-foreground">Activity Feed</p>
-                    </div>
+                    <FrontRunningActivityFeed />
                   </CardContent>
                 </Card>
               </TabsContent>
@@ -72,9 +71,7 @@ const FrontRunning = () => {
                     <CardDescription>Real-time detection of sandwich attacks</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="h-80 flex items-center justify-center border rounded">
-                      <p className="text-muted-foreground">Sandwich Attack Dashboard</p>
-                    </div>
+                    <SandwichAttackMonitor />
                   </CardContent>
                 </Card>
               </TabsContent>
@@ -86,9 +83,7 @@ const FrontRunning = () => {
                     <CardDescription>Analysis of front-running patterns</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="h-80 flex items-center justify-center border rounded">
-                      <p className="text-muted-foreground">Front-Running Dashboard</p>
-                    </div>
+                    <FrontRunningActivityFeed />
                   </CardContent>
                 </Card>
               </TabsContent>
@@ -100,9 +95,7 @@ const FrontRunning = () => {
                     <CardDescription>Monitoring of high-gas transactions and potential exploit attempts</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="h-80 flex items-center justify-center border rounded">
-                      <p className="text-muted-foreground">High-Gas Transactions Dashboard</p>
-                    </div>
+                    <HighGasTransactions />
                   </CardContent>
                 </Card>
               </TabsContent>
